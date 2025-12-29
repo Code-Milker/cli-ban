@@ -1,31 +1,28 @@
-// src/createKanBan.ts
-
+// src/createDb.ts (renamed from createKanBan.ts for generality)
 import { Database } from "bun:sqlite";
 
-// Resolve absolute paths relative to this script's location
+// Use env for DB path (e.g., DB_PATH=db/newboard.db bun src/createDb.ts)
+const dbPath = process.env.DB_PATH || "db/kanban.db";
 const schemaUrl = new URL("../drizzle/schema.sql", import.meta.url);
-const dbDirUrl = new URL("../db", import.meta.url); // projectroot/db/
-const dbUrl = new URL("../db/kanban.db", import.meta.url); // projectroot/db/kanban.db
+const dbDirUrl = new URL(
+  `../${dbPath.split("/").slice(0, -1).join("/")}`,
+  import.meta.url,
+); // Extract dir
 
 const schemaPath = schemaUrl.pathname;
-const dbPath = dbUrl.pathname;
+const fullDbPath = new URL(`../${dbPath}`, import.meta.url).pathname;
 
-// Ensure the db directory exists (Bun doesn't create dirs automatically)
+// Ensure dir exists
 (await Bun.file(dbDirUrl).exists()) ||
   (await Bun.$`mkdir -p ${dbDirUrl.pathname}`);
 
-console.log("Creating/applying Kanban database schema...");
-console.log(`Database: ${dbPath}`);
-console.log(`Schema:   ${schemaPath}\n`);
+console.log(`Creating/applying database schema at ${fullDbPath}...`);
 
-// Read schema using Bun's native API
+// Read schema
 const schema = await Bun.file(schemaPath).text();
 
-// Open (or create) the SQLite database in db/
-const sqlite = new Database(dbPath);
-
-// Apply the schema (safe to run multiple times thanks to IF NOT EXISTS)
+// Apply
+const sqlite = new Database(fullDbPath);
 sqlite.exec(schema);
-
-console.log("✓ db/kanban.db created and schema applied successfully!");
+console.log("✓ Database created and schema applied!");
 sqlite.close();

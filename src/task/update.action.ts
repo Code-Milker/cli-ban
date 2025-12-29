@@ -1,13 +1,16 @@
 // src/task/update.action.ts
-import { db } from "../lib/db";
 import { tasks, taskAttributes } from "../lib/generated/schema";
 import { eq } from "drizzle-orm";
 import {
   UpdateTaskPayload,
   updateTaskPayloadSchema,
 } from "./update.validators";
+import { BunSQLiteDatabase } from "drizzle-orm/bun-sqlite";
 
-export async function updateTask(payload: UpdateTaskPayload) {
+export async function updateTask(
+  payload: UpdateTaskPayload,
+  db: BunSQLiteDatabase,
+) {
   const result = updateTaskPayloadSchema.safeParse(payload);
   if (!result.success) {
     console.error("Payload validation failed:");

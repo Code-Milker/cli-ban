@@ -1,9 +1,9 @@
 // src/task/get.action.ts
-import { db } from "../lib/db";
+import { BunSQLiteDatabase } from "drizzle-orm/bun-sqlite";
 import { tasks, taskAttributes } from "../lib/generated/schema";
 import { asc, inArray } from "drizzle-orm";
 
-export async function getTasks() {
+export async function getTasks(db: BunSQLiteDatabase) {
   const allTasks = await db
     .select()
     .from(tasks)

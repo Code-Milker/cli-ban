@@ -1,21 +1,23 @@
 // src/task/add.test.ts
-import { db } from "../lib/db";
 import { tasks, taskAttributes } from "../lib/generated/schema";
 import { eq } from "drizzle-orm";
 import { addTask } from "./add.action"; // Import the exported function
 import { addTaskPayloadSchema, type AddTaskPayload } from "./add.validators";
+import { initTestDB } from "../lib/testDb";
+import type { BunSQLiteDatabase } from "drizzle-orm/bun-sqlite";
+
+let db: BunSQLiteDatabase;
+
 describe("add task script", () => {
   beforeEach(async () => {
-    // Clear tables before each test
-    await db.delete(taskAttributes);
-    await db.delete(tasks);
+    db = await initTestDB();
   });
   test("adds a simple task", async () => {
     const payload: AddTaskPayload = addTaskPayloadSchema.parse({
       category: "Job",
       title: "Test task",
     });
-    await addTask(payload);
+    await addTask(payload, db);
     const addedTasks = await db.select().from(tasks);
     expect(addedTasks).toHaveLength(1);
     expect(addedTasks[0].category).toBe("Job");
@@ -29,7 +31,7 @@ describe("add task script", () => {
       section: "DOING",
       attributes: { goal: ["Achieve something"], note: ["Important"] },
     });
-    await addTask(payload);
+    await addTask(payload, db);
     const addedTasks = await db.select().from(tasks);
     expect(addedTasks).toHaveLength(1);
     expect(addedTasks[0].section).toBe("DOING");
