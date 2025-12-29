@@ -1,0 +1,23 @@
+{
+  "name": "cli-ban",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "db:create": "bun src/createKanBan.ts && bun drizzle-kit introspect",
+    "task:add": "bun src/task/add.ts",
+    "task:get": "bun src/task/get.ts",
+    "task:update": "bun src/task/update.ts",
+    "task:delete": "bun src/task/delete.ts",
+    "db:introspect": "bun drizzle-kit introspect"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.15.15",
+    "drizzle-orm": "^0.33.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "drizzle-kit": "^0.24.2",
+    "typescript": "^5"
+  }
+}
