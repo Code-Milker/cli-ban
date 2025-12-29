@@ -2,8 +2,8 @@
 import { db } from "../lib/db";
 import { tasks, taskAttributes } from "../lib/generated/schema";
 import { eq } from "drizzle-orm";
-import { addTaskFromInput } from "./add"; // Import the exported function
-
+import { addTask } from "./add.action"; // Import the exported function
+import { addTaskPayloadSchema, type AddTaskPayload } from "./add.validators";
 describe("add task script", () => {
   beforeEach(async () => {
     // Clear tables before each test
@@ -11,9 +11,11 @@ describe("add task script", () => {
     await db.delete(tasks);
   });
   test("adds a simple task", async () => {
-    const input =
-      '{"category": "Job", "title": "Test task", "section": "TODO"}';
-    await addTaskFromInput(input);
+    const payload: AddTaskPayload = addTaskPayloadSchema.parse({
+      category: "Job",
+      title: "Test task",
+    });
+    await addTask(payload);
     const addedTasks = await db.select().from(tasks);
     expect(addedTasks).toHaveLength(1);
     expect(addedTasks[0].category).toBe("Job");
@@ -21,9 +23,13 @@ describe("add task script", () => {
     expect(addedTasks[0].section).toBe("TODO");
   });
   test("adds a task with attributes", async () => {
-    const input =
-      '{"category": "Project", "title": "Test project", "section": "DOING", "attributes": {"goal": ["Achieve something"], "note": ["Important"]}}';
-    await addTaskFromInput(input);
+    const payload: AddTaskPayload = addTaskPayloadSchema.parse({
+      category: "Project",
+      title: "Test project",
+      section: "DOING",
+      attributes: { goal: ["Achieve something"], note: ["Important"] },
+    });
+    await addTask(payload);
     const addedTasks = await db.select().from(tasks);
     expect(addedTasks).toHaveLength(1);
     expect(addedTasks[0].section).toBe("DOING");
@@ -40,8 +46,8 @@ describe("add task script", () => {
     );
   });
   test("fails on invalid input", async () => {
-    const input = '{"category": "Invalid", "title": ""}';
-    await expect(addTaskFromInput(input)).rejects.toThrow();
+    const invalidInput = { category: "Invalid", title: "" };
+    expect(() => addTaskPayloadSchema.parse(invalidInput)).toThrow();
     const addedTasks = await db.select().from(tasks);
     expect(addedTasks).toHaveLength(0);
   });
