@@ -8,14 +8,18 @@
     "task:get": "bun src/task/get.ts",
     "task:update": "bun src/task/update.ts",
     "task:delete": "bun src/task/delete.ts",
-    "db:introspect": "bun drizzle-kit introspect"
+    "db:introspect": "bun drizzle-kit introspect",
+    "test": "bun test"
   },
   "dependencies": {
     "@libsql/client": "^0.15.15",
-    "drizzle-orm": "^0.33.0",
+    "drizzle-orm": "^0.45.1",
+    "drizzle-zod": "^0.8.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "drizzle-kit": "^0.24.2",
     "typescript": "^5"
