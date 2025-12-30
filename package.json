@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "db:create": "bun src/createKanBan.ts",
+    "app:createKanBan": "bun src/kanban/add.action.ts",
+    "app:getKanBan": "bun src/kanban/get.action.ts",
+    "app:addTasks": "bun src/task/add.cli.ts",
+    "app:getTasks": "bun src/tasks/get.action.ts",
     "task:add": "bun src/task/add.ts",
     "task:get": "bun src/task/get.ts",
     "task:update": "bun src/task/update.ts",

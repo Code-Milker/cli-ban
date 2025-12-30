@@ -2,7 +2,6 @@
 import { BunSQLiteDatabase } from "drizzle-orm/bun-sqlite";
 import { tasks, taskAttributes } from "../lib/generated/schema";
 import { asc, inArray } from "drizzle-orm";
-
 export async function getTasks(db: BunSQLiteDatabase) {
   const allTasks = await db
     .select()
@@ -43,20 +42,5 @@ export async function getTasks(db: BunSQLiteDatabase) {
     sections[task.section].push({ ...task, attributes: groupedAttrs });
   }
 
-  // Format as Markdown matching the example
-  let md = "";
-  for (const [section, taskList] of Object.entries(sections)) {
-    if (taskList.length === 0) continue;
-    md += `## ${section}\n`;
-    for (const task of taskList) {
-      md += `#### ${task.category}: ${task.title}\n`;
-      for (const [key, values] of Object.entries(task.attributes)) {
-        for (const value of values) {
-          md += `- ${key}: ${value}\n`;
-        }
-      }
-    }
-  }
-  console.log(md.trim());
-  return md.trim();
+  return sections;
 }
