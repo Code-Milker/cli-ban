@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "db:create": "bun src/createKanBan.ts && bun drizzle-kit introspect",
+    "db:create": "bun src/createKanBan.ts",
     "task:add": "bun src/task/add.ts",
     "task:get": "bun src/task/get.ts",
     "task:update": "bun src/task/update.ts",
@@ -21,7 +21,7 @@
     "@types/bun": "^1.3.5",
     "@types/jest": "^30.0.0",
     "@types/node": "^20",
-    "drizzle-kit": "^0.24.2",
+    "drizzle-kit": "^0.31.8",
     "typescript": "^5"
   }
 }
