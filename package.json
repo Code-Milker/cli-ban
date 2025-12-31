@@ -3,14 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "app:createKanBan": "bun src/kanban/add.action.ts",
-    "app:getKanBan": "bun src/kanban/get.action.ts",
-    "app:addTasks": "bun src/task/add.cli.ts",
-    "app:getTasks": "bun src/tasks/get.action.ts",
-    "task:add": "bun src/task/add.ts",
-    "task:get": "bun src/task/get.ts",
-    "task:update": "bun src/task/update.ts",
-    "task:delete": "bun src/task/delete.ts",
+    "cli:addTasks": "bun src/task/add.cli.ts",
+    "cli:getKanBan": "bun src/kanban/get.action.ts",
+    "cli:getTasks": "bun src/task/get.cli.ts",
+    "cli:updateTasks": "bun src/task/update.cli.ts",
     "db:introspect": "bun drizzle-kit introspect",
     "test": "bun test"
   },

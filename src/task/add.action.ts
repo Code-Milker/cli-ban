@@ -3,7 +3,7 @@ import { BunSQLiteDatabase } from "drizzle-orm/bun-sqlite";
 import { tasks, taskAttributes } from "../lib/generated/schema";
 import { AddTaskPayload, addTaskPayloadSchema } from "./add.validators";
 // Auto-generated Zod schema from introspected DB
-export async function addTask(payload: AddTaskPayload,db: BunSQLiteDatabase) {
+export async function addTask(payload: AddTaskPayload, db: BunSQLiteDatabase) {
   const result = addTaskPayloadSchema.safeParse(payload);
   if (!result.success) {
     console.error("Payload validation failed:");

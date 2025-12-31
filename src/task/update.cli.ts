@@ -1,20 +1,21 @@
-// src/task/add.cli.ts
+// src/task/update.cli.ts
 import { db } from "../lib/db";
-import { addTask } from "./add.action";
-import { AddTaskPayload } from "./add.validators";
+import { updateTask } from "./update.action";
+import { UpdateTaskPayload } from "./update.validators";
 import { getTasks } from "./get.action";
 
 async function main() {
   const stdin = await Bun.file("/dev/stdin").text();
-  let payload: AddTaskPayload;
+  let payload: UpdateTaskPayload;
   try {
     payload = JSON.parse(stdin.trim());
   } catch (err) {
     console.error("Invalid JSON input:", (err as Error).message);
     process.exit(1);
   }
+
   try {
-    await addTask(payload, db);
+    await updateTask(payload, db);
     const sections = await getTasks(db);
     // Format as Markdown matching your get.action.ts
     let md = "";
@@ -32,8 +33,9 @@ async function main() {
     }
     console.log(md);
   } catch (err) {
-    console.error("Error adding task:", (err as Error).message);
+    console.error("Error updating task:", (err as Error).message);
     process.exit(1);
   }
 }
+
 main();
