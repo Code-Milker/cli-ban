@@ -36,3 +36,17 @@ and then make it clean for me and then add. highlight in nvim then have ai clean
 #### Friend: Recover Hardy’s old YouTube videos
 - outcome: No videos found after searching multiple archive sites with old Facebook links
 - note: Account fully deactivated, no Wayback captures
+[
+,
+,
+,
+{
+"category": "Health",
+"title": "Set up daily neck & posture routine",
+"section": "TODO"
+},
+,
+,
+,
+
+]
