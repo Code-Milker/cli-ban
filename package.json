@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "cli:addTasks": "bun src/task/add.cli.ts",
-    "cli:getKanBan": "bun src/kanban/get.action.ts",
+    "cli:getKanBan": "bun src/kanban/get.cli.ts",
     "cli:getTasks": "bun src/task/get.cli.ts",
     "cli:updateTasks": "bun src/task/update.cli.ts",
     "cli:deleteTask": "bun src/task/delete.cli.ts",

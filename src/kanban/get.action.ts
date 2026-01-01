@@ -2,24 +2,30 @@
 import { getTasks } from "../task/get.action";
 import { db } from "../lib/db";
 
-async function main() {
+export async function getKanBanBoard() {
   const sections = await getTasks(db);
-
-  // Format as Markdown matching the example
   let md = "";
   for (const [section, taskList] of Object.entries(sections)) {
     if (taskList.length === 0) continue;
-    md += `## ${section}\n`;
+    md += `# ${section}\n\n`;
     for (const task of taskList) {
-      md += `#### ${task.category}: ${task.title}\n`;
-      for (const [key, values] of Object.entries(task.attributes)) {
-        for (const value of values) {
-          md += `- ${key}: ${value}\n`;
+      md += `## ${task.category}: ${task.title}\n`;
+      // Sort attributes alphabetically by key
+      const sortedAttrs = Object.entries(task.attributes).sort((a, b) =>
+        a[0].localeCompare(b[0]),
+      );
+      for (const [key, values] of sortedAttrs) {
+        if (values.length === 1) {
+          md += `- **${key}**: ${values[0]}\n`;
+        } else {
+          md += `- **${key}**:\n`;
+          for (const value of values) {
+            md += `  - ${value}\n`;
+          }
         }
       }
+      md += "\n"; // Separator for readability
     }
   }
   console.log(md);
 }
-
-main();
